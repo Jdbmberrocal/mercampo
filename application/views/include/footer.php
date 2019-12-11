@@ -166,6 +166,32 @@
   <script src="<?=base_url('plantilla/')?>js/popper.min.js"></script>
   <script src="<?=base_url('plantilla/')?>js/bootstrap.min.js"></script>
   <script>
+
+    $(document).ready(function(e){
+      <?php if(($this->uri->segment(1) == 'inicio') && ($this->uri->segment(2) !='' && $this->uri->segment(3) !='' && $this->uri->segment(4) !='' && $this->uri->segment(5) !='')): ?>
+      cargar_listado_comentarios();
+      <?php endif;?>
+    });
+
+<?php if(($this->uri->segment(1) == 'inicio') && ($this->uri->segment(2) !='' && $this->uri->segment(3) !='' && $this->uri->segment(4) !='' && $this->uri->segment(5) !='')): ?>
+function cargar_listado_comentarios() 
+  {
+    $.ajax({
+        url:"<?=base_url('producto/listado_comentarios/'._encode($idproducto))?>",
+        method:"POST",
+        data:{p:1},
+        dataType:"json",
+        beforeSend:function(){
+          
+        },
+        success:function(data)
+        {
+          $('#comentarios').html(data);
+        }
+      })
+  }
+<?php endif;?>
+
     $('#frm_login').on('submit', function(event){
       event.preventDefault();
       $.ajax({
@@ -208,7 +234,7 @@
               $('#frm_login')[0].reset();
               if(data.login == 'exitoso')
               {
-                window.location.href = 'inicio';
+                window.location.href = '<?=base_url()?>';
               } 
           }
           $('#btn_login').attr('disabled', false);
@@ -395,6 +421,51 @@
               } 
           }
           $('#btn_registro_productor').attr('disabled', false);
+        }
+      })
+    });
+
+
+
+    /*==============SISTEMA DE COMENTARIO=================== */
+    $('#frm_comentario').on('submit', function(event){
+      event.preventDefault();
+      $.ajax({
+        url:"<?=base_url('producto/comentar/')?>",
+        method:"POST",
+        data:$(this).serialize(),
+        dataType:"json",
+        beforeSend:function(){
+          $('#btn_comentario').attr('disabled', 'disabled');
+        },
+        success:function(data)
+        {
+          if(data.error)
+          {
+            if(data.comentario_error != '')
+            {
+              $('#comentario_error').html(data.comentario_error);
+            }
+            else
+            {
+              $('#comentario_error').html('');
+            }
+
+            
+          }
+          if(data.success)
+          {
+              $('#success_message').html(data.success);
+              $('#comentario_error').html('');
+              
+              $('#frm_comentario')[0].reset();
+              cargar_listado_comentarios();
+              if(data.login == 'exitoso')
+              {
+                cargar_listado_comentarios();
+              }
+          }
+          $('#btn_comentario').attr('disabled', false);
         }
       })
     });

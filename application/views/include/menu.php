@@ -31,6 +31,7 @@
         <a class="nav-link enlaces dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"><i class="fas fa-power-off"></i> <?=$this->session->usuario?></a>
         <div class="dropdown-menu">
           <a class="dropdown-item" href="<?=base_url('perfil')?>"><i class="fas fa-user"></i> Perfil</a>
+          <a class="dropdown-item" href="<?=base_url('carrito/pedidos')?>"><i class="fas fa-file-text-o"></i> Pedidos</a>
           <a class="dropdown-item" href="<?=base_url('login/logout')?>"><i class="fas fa-power-off"></i> Salir</a>
         </div>
       </li>
