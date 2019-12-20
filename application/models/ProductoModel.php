@@ -3,6 +3,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class ProductoModel extends CI_Model {
 
+    public function getProductosProductor($idproductor)
+    {
+        $query = $this->db->query('SELECT * FROM producto where idproductor = "'.$idproductor.'"');
+        if($query)
+        {
+            return $query->result();
+        }else{
+            return false;
+        }
+    }
+
+    public function insertar_productos($data)
+    {
+        if($this->db->insert('producto',$data))
+        {
+            return TRUE;
+        }else{
+            return FALSE;
+        }
+    }
+
+    public function eliminar($idproducto)
+    {
+        $this->db->where('idproducto',$idproducto);
+        if ($this->db->delete('producto')) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public function insertar($data)
     {
         if($this->db->insert('comentarios',$data))

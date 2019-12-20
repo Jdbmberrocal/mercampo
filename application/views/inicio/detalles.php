@@ -42,11 +42,9 @@
 
                     <form action="<?=base_url('carrito/addcart')?>" method="POST">
                         <div class="form-group">
-                            <input type="hidden" name="id" value="<?=_encode($idproducto)?>">
-                            <input type="hidden" name="price" value="<?=$precio?>">
-                            <input type="hidden" name="name" value="<?=$pagina?>">
+                            <input type="hidden" name="idproducto" value="<?=_encode($idproducto)?>">
                             <label for="pwd">Cantidad</label>
-                            <input type="number" class="form-control" value="1" name="qty" min="1" max="<?=$cantidad?>">
+                            <input type="number" class="form-control" value="1" name="cantidad" min="1" max="<?=$cantidad?>">
                         </div>
                         
                         <button type="submit" class="btn btn-primary">Comprar</button>

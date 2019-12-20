@@ -15,80 +15,59 @@ class Carrito extends CI_Controller {
 		$this->load->view('carrito/carrito');
 		$this->load->view('include/footer');
     }
+
+    public function pedidos()
+	{
+        $this->load->model('VentasModel');
+		$data = array('app' => 'Carrito', 'pagina' => 'Pedidos');
+		$this->load->view('include/head', $data);
+		$this->load->view('include/menu');
+		//$productos = array('productos' => $this->ProductosModel->getProductos());
+        //$this->load->view('include/header');
+        if($this->session->rol == 'cliente')
+        {
+            $data['pedidos'] = $this->VentasModel->getPedidosCliente($this->session->idcliente);
+            $this->load->view('carrito/pedidos_cliente', $data);
+        }elseif($this->session->rol == 'productor')
+        {
+            $data['pedidos'] = $this->VentasModel->getPedidosProductor($this->session->idproductor);
+            $this->load->view('carrito/pedidos_productor', $data);
+        }
+		
+		$this->load->view('include/footer');
+    }
+
+    public function estado($idventa)
+    {
+        $this->load->model('VentasModel');
+        $data = array(
+            'estado '=>'0'
+        );
+        if($this->VentasModel->actualizar(_decode($idventa), $data))
+        {
+            redirect(base_url('carrito/pedidos'));
+        }else{
+            redirect(base_url('carrito/pedidos'));
+        }
+    }
     
     public function addcart()
     {
-        $this->load->library('cart');
-        $id = $this->input->post('id');
-        $qty = $this->input->post('qty');
-        $price = $this->input->post('price');
-        $name = $this->input->post('name');
+        $this->load->model('VentasModel');
+        date_default_timezone_set("America/Bogota");
+        $idproducto = $this->input->post('idproducto');
+        $idcliente = $this->input->post('idcliente');
+        $cantidad = $this->input->post('cantidad');
+         
         $data = array(
-            array(
-                    'id'      => $id,
-                    'qty'     => $qty,
-                    'price'   => $price,
-                    'name'    => $name
-            )
-        );
-        
-        $this->cart->insert($data);
-        redirect(base_url('carrito'));
+                    'idproducto'      => _decode($idproducto),
+                    'idcliente'     => $this->session->idcliente,
+                    'cantidad'    => $cantidad,
+                    'fecha'    => date("Y-m-d h:i:sa"),
+            );
+            $this->VentasModel->insertar($data);
+        redirect(base_url('carrito/pedidos'));
     }
 
-    public function vaciar()
-    {
-        $this->load->library('cart');
-        if($this->cart->destroy())
-        {
-            redirect(base_url('carrito'));
-        }else{
-            redirect(base_url('carrito'));
-        }
-    }
-
-    public function prueba()
-    {
-        $this->load->helper('form');
-        $this->load->library('cart');
-        $this->load->view('carrito/prueba');
-    }
-
-    public function data()
-    {
-        $this->load->library('cart');
-        $data = array(
-            array(
-                    'id'      => 'sku_123ABC',
-                    'qty'     => 1,
-                    'price'   => 39.95,
-                    'name'    => 'T-Shirt',
-                    'options' => array('Size' => 'L', 'Color' => 'Red')
-            ),
-            array(
-                    'id'      => 'sku_567ZYX',
-                    'qty'     => 1,
-                    'price'   => 9.95,
-                    'name'    => 'Coffee Mug'
-            ),
-            array(
-                    'id'      => 'sku_965QRS',
-                    'qty'     => 1,
-                    'price'   => 29.95,
-                    'name'    => 'Shot Glass'
-            )
-    );
     
-    $this->cart->insert($data);
-    }
-
-    public function listado()
-    {
-        $this->load->library('cart');
-        foreach($this->cart->get_item() as $b => $a )
-        {
-            echo $a['price'];
-        }
-        
-    }
 }

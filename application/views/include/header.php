@@ -12,10 +12,10 @@
 <div class="container">
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="<?=base_url('plantilla/')?>img/img1.jpg" alt="Los Angeles" width="1100" height="500">
+      <img src="<?=base_url('plantilla/')?>img/img1.png" alt="Los Angeles" width="1100" height="500">
     </div>
     <div class="carousel-item">
-      <img src="<?=base_url('plantilla/')?>img/img2.jpeg" alt="Chicago" width="1100" height="500">
+      <img src="<?=base_url('plantilla/')?>img/img2.jpg" alt="Chicago" width="1100" height="500">
     </div>
     <div class="carousel-item">
       <img src="<?=base_url('plantilla/')?>img/img3.jpg" alt="New York" width="1100" height="500">

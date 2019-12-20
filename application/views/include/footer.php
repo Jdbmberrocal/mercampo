@@ -29,6 +29,15 @@
                   <input type="password" class="form-control" name="clave" id="clave" placeholder="Contraseña">
                   <span id="clave_error" class="text-danger"></span>
               </div>
+
+              <div class="form-group">
+                  <select class="form-control" name="rol" id="rol">
+                      <option value="">Seleccione su rol</option>
+                      <option value="cliente">Cliente</option>
+                      <option value="productor">Productor</option>
+                  </select>
+                  <span id="rol_error" class="text-danger"></span>
+              </div>
               
               <button type="submit" class="btn btn-block btn-primary" id="btn_login">Entrar</button>
           </form>
@@ -223,6 +232,15 @@ function cargar_listado_comentarios()
             {
               $('#clave_error').html('');
             }
+
+            if(data.rol_error != '')
+            {
+              $('#rol_error').html(data.rol_error);
+            }
+            else
+            {
+              $('#rol_error').html('');
+            }
            
           }
           if(data.success)
@@ -230,12 +248,18 @@ function cargar_listado_comentarios()
               $('#success_message').html(data.success);
               $('#usuario_error').html('');
               $('#clave_error').html('');
+              $('#rol_error').html('');
              
               $('#frm_login')[0].reset();
-              if(data.login == 'exitoso')
+              if(data.login == 'exitoso' && data.rol == 'cliente')
               {
+
                 window.location.href = '<?=base_url()?>';
+              }else if(data.login == 'exitoso' && data.rol == 'productor')
+              {
+                window.location.href = '<?=base_url("carrito/pedidos")?>';
               } 
+              console.log(data);
           }
           $('#btn_login').attr('disabled', false);
         }

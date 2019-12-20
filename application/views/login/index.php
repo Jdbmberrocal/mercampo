@@ -11,6 +11,7 @@
                         <div class="form-group">
                             <input type="password" class="form-control" name="" id="pwd" placeholder="Contraseña">
                         </div>
+                         
                         
                         <button type="submit" class="btn btn-block btn-primary">Entrar</button>
                     </form>

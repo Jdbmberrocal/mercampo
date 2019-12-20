@@ -30,14 +30,21 @@
       <li class="nav-item dropdown">
         <a class="nav-link enlaces dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"><i class="fas fa-power-off"></i> <?=$this->session->usuario?></a>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="<?=base_url('perfil')?>"><i class="fas fa-user"></i> Perfil</a>
+        <?php if($this->session->rol == 'productor'):?>
+        <a class="dropdown-item" href="<?=base_url('producto/')?>"><i class="fas fa-file-text-o"></i> Productos</a>
+        <?php endif; ?>
+          <?php if($this->session->rol == 'cliente'):?>
+            <a class="dropdown-item" href="<?=base_url('perfil')?>"><i class="fas fa-user"></i> Perfil</a>
+          <?php endif; ?>
           <a class="dropdown-item" href="<?=base_url('carrito/pedidos')?>"><i class="fas fa-file-text-o"></i> Pedidos</a>
           <a class="dropdown-item" href="<?=base_url('login/logout')?>"><i class="fas fa-power-off"></i> Salir</a>
         </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link enlaces" href="<?=base_url('carrito')?>"><i class="fas fa-cart-plus"></i></a>
-      </li>
+      <?php if($this->session->rol == 'cliente'):?>
+        <li class="nav-item">
+          <a class="nav-link enlaces" href="<?=base_url('carrito')?>"><i class="fas fa-cart-plus"></i></a>
+        </li>
+      <?php endif; ?>
     </ul>
     
 <?php else:?>
